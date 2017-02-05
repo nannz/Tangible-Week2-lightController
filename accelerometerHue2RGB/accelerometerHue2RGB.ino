@@ -19,7 +19,7 @@ const int zpin = A2;
 int xRawMin = 260;
 int xRawMax = 420;
 int yRawMin = 260;
-int yRawMax = 420;
+int yRawMax = 398;
 int zRawMin = 260;
 int zRawMax = 420;
 int xRaw = 0;
@@ -50,7 +50,7 @@ void loop() {
   //showRawData();
 
   //check the max and min of xyzAxises
-  AutoCalibrate(xRaw, yRaw, zRaw);
+  //AutoCalibrate(xRaw, yRaw, zRaw);
 
   // Convert raw values to 'milli-Gs"
   long xScaled = map(xRaw, xRawMin, xRawMax, -1000, 1000);
@@ -60,8 +60,20 @@ void loop() {
   float xAccel = xScaled / 1000.0;
   float yAccel = yScaled / 1000.0;
   float zAccel = zScaled / 1000.0;
-
-
+/*
+  Serial.print(xAccel);
+  Serial.print(", ");
+  Serial.print(yAccel);
+  Serial.print(", ");
+  Serial.print(zAccel);
+  Serial.println(" ");
+*/
+  float angle = atan2(yAccel,xAccel) * 180/M_PI;
+  float hueValue = map(angle, -180.0, 180.0, 0, 360);
+  Serial.print("angle1: ");
+  Serial.print(angle);
+  Serial.print("; hue: ");
+  Serial.println(hueValue);
   // delay before next reading:
   delay(100);
 }
