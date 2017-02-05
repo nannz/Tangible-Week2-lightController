@@ -21,7 +21,7 @@ int xRawMax = 420;
 int yRawMin = 260;
 int yRawMax = 398;
 int zRawMin = 260;
-int zRawMax = 420;
+int zRawMax = 425;
 int xRaw = 0;
 int yRaw = 0;
 int zRaw = 0;
@@ -30,6 +30,11 @@ float accels[3] = {0.0,0.0,0.0};
 
 // Take multiple samples to reduce noise
 const int sampleSize = 10;
+
+int hue = 0;
+int saturation = 255;
+int value = 255;
+int rgbColor[]={0,0,0};
 
 void setup() {
   Serial.begin(9600);
@@ -68,12 +73,33 @@ void loop() {
   Serial.print(zAccel);
   Serial.println(" ");
 */
+  //get the value of saturation
+  long saturationFloat = map(zScaled,-1000,1000,0,255);
+  saturation = (int)saturationFloat;
+  Serial.print("saturation: ");
+  Serial.print(saturation);
+  Serial.print("|  ");
+
+  //get the hue value
   float angle = atan2(yAccel,xAccel) * 180/M_PI;
-  float hueValue = map(angle, -180.0, 180.0, 0, 360);
-  Serial.print("angle1: ");
-  Serial.print(angle);
-  Serial.print("; hue: ");
-  Serial.println(hueValue);
+  float hueValue = map(angle, -180.0, 180.0, 0, 259);
+  hue = (int)hueValue;
+  //Serial.print("angle1: ");
+  //Serial.print(angle);
+  Serial.print("hue: ");
+  Serial.print(hue);
+  Serial.print("|  ");
+
+  //get RGB value from the hue value and saturation value.
+  getRGB(hue,saturation,value,rgbColor);
+  Serial.print("rgb: ");
+  Serial.print(rgbColor[0]);
+  Serial.print(", ");
+  Serial.print(rgbColor[1]);
+  Serial.print(", ");
+  Serial.print(rgbColor[2]);
+  Serial.println(" ");
+  
   // delay before next reading:
   delay(100);
 }
@@ -89,4 +115,6 @@ int ReadAxis(int axisPin)
   }
   return reading / sampleSize;
 }
+
+
 
