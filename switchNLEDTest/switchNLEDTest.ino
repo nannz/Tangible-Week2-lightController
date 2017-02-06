@@ -69,12 +69,19 @@ void loop()
   }
 
   if (turnOff == true) {
+    Serial.println("start turnning off");
     turnOffLED(currentColor);
-    turnOff == false;
+    Serial.println("turn off finished");
+    turnOff = false;
   }
   if (turnOn == true){
     turnOnLED(beginColor);
-    turnOn == false;
+    turnOn = false;
+    //Serial.println(turnOn);
+  }
+  if(switchState == HIGH && turnOn == false){
+    Serial.println("set led color");
+    setLEDColor(255,0,0);
   }
 
   digitalWrite(switchOutPin, switchState);

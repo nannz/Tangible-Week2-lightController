@@ -59,8 +59,7 @@ int blueValue = 0; // value to write to the blue LED
 int currentColor[] = {0, 0, 0};
 bool turnOff = false;
 bool turnOn = false;
-int beginColor[]  = {255, 255, 0}; //the color when you turn on the led
-int endColor[] = {0, 0, 0};
+int beginColor[]  = {255, 255, 255}; //the color when you turn on the led
 
 bool isWorking = false;
 void setup() {
@@ -91,7 +90,7 @@ void loop() {
   //showRawData();
 
   //check the max and min of xyzAxises
-  //AutoCalibrate(xRaw, yRaw, zRaw);
+  AutoCalibrate(xRaw, yRaw, zRaw);
 
   // Convert raw values to 'milli-Gs"
   long xScaled = map(xRaw, xRawMin, xRawMax, -1000, 1000);
@@ -120,13 +119,20 @@ void loop() {
 
   //get RGB value from the hue value and saturation value.
   getRGB(hue, saturation, value, rgbColor);
-  //  Serial.print("rgb: ");
-  //  Serial.print(rgbColor[0]);
-  //  Serial.print(", ");
-  //  Serial.print(rgbColor[1]);
-  //  Serial.print(", ");
-  //  Serial.print(rgbColor[2]);
-  //  Serial.println(" ");
+  //    Serial.print("rgb: ");
+  //    Serial.print(rgbColor[0]);
+  //    Serial.print(", ");
+  //    Serial.print(rgbColor[1]);
+  //    Serial.print(", ");
+  //    Serial.print(rgbColor[2]);
+  //    Serial.println(" ");
+  Serial.print("rgb: ");
+  Serial.print(rgbColor[0]);
+  Serial.print(", ");
+  Serial.print(rgbColor[1]);
+  Serial.print(", ");
+  Serial.print(rgbColor[2]);
+  Serial.println(" ");
 
   //---------------------LED------------------
   readingSwitch = digitalRead(switchInPin);
@@ -137,44 +143,40 @@ void loop() {
     if (switchState == HIGH) {//手刚按下去
       Serial.println("switch case 1");
       switchState = LOW;
-      //setLEDColor(0, 0, 0);
-      Serial.println("turnOn is false");
       turnOn = false;
       turnOff = true;
     } else {//手抬起来
       Serial.println("switch case 2");
       switchState = HIGH;
-      //setLEDColor(0, 0, 255);
       turnOn = true;
       turnOff = false;
     }
     time = millis();
   }
-  
-  if (turnOn == false){
-    //set endColor
-    for (int i = 0; i < 3; i++) {
-        endColor[i] = currentColor[i];
-    }
-  }
   if (turnOff == true) {
-    turnOn == false;
-    Serial.println("turnOff the LED ing ...");
-    
+    Serial.println("turnning off");
+
+    //    Serial.print("currentRGB: ");
+    //    Serial.print(currentColor[0]);
+    //    Serial.print(", ");
+    //    Serial.print(currentColor[1]);
+    //    Serial.print(", ");
+    //    Serial.print(currentColor[2]);
+    //    Serial.println(". ");
+
     turnOffLED(currentColor);
-    turnOff == false;
+    Serial.println("turn off finished");
+    turnOff = false;
   }
   if (turnOn == true) {
-    Serial.println("turnOn is true");
     turnOnLED(beginColor);
-    //Serial.println("turnOn is false");
-    //turnOn == false;
-    
-    Serial.println("led is changing color");
-    setLEDColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+    turnOn = false;
   }
-  
+  if (switchState == HIGH && turnOn == false) {
+    //Serial.println("set led color");
+    setLEDColor(rgbColor[0], rgbColor[1], rgbColor[2]);
 
+  }
   digitalWrite(switchOutPin, switchState);
   previousSwitch = readingSwitch;
 

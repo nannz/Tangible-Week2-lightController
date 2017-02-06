@@ -1,21 +1,30 @@
 
 //turnoff the led in a fading way
-void turnOffLED(int currentColor[3]) {
+void turnOffLED(int endColor[3]) {
   bool finish = false;
-  while (currentColor[0] >= 0 && currentColor[1] >= 0 && currentColor[2] >= 0 && !finish) {
+  while (endColor[0] >= 0 && endColor[1] >= 0 && endColor[2] >= 0 && !finish) {
 
     //if the value is bigger than 0, decrease the value
     for (int i = 0; i < 3; i++) {
-      if (currentColor[i] > 0) {
-        currentColor[i]--;
+      if (endColor[i] > 0) {
+        endColor[i]--;
       }
-      if (currentColor[i] == 0) {
-        currentColor[i] = 0;
+      if (endColor[i] == 0) {
+        endColor[i] = 0;
       }
     }
-    setLEDColor(currentColor[0], currentColor[1], currentColor[2]);
+    setLEDColor(endColor[0], endColor[1], endColor[2]);
+
+    Serial.print("currentRGB: ");
+    Serial.print(endColor[0]);
+    Serial.print(", ");
+    Serial.print(endColor[1]);
+    Serial.print(", ");
+    Serial.print(endColor[2]);
+    Serial.println(". ");
+    
     //finish "fading" turn off
-    if (currentColor[0] == 0 && currentColor[1] == 0 && currentColor[2] == 0) {
+    if (endColor[0] == 0 && endColor[1] == 0 && endColor[2] == 0) {
       finish = true;
     }
     // wait for 10 milliseconds to see the dimming effect
