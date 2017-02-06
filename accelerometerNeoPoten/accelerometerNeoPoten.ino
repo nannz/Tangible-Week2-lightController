@@ -6,11 +6,6 @@
 #define NUMPIXELS      1
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 int delayval = 500; // delay for half a second //from neoPixelSimple
-
-//potentiometer
-int potenPin = 3; //analog input pin A3
-int potenVal = 0; //store the inputValue;
-
 //The circuit:
 // analog 0: accelerometer self test
 // analog 1: x-axis
@@ -18,20 +13,20 @@ int potenVal = 0; //store the inputValue;
 // analog 3: z-axis
 // analog 4: ground
 // analog 5: vcc
-//const int groundpin = 17;//18;  //analog input pin 4
-//const int powerpin = 19;   //analog input pin 5
+const int groundpin = 17;//18;  //analog input pin 4
+const int powerpin = 19;   //analog input pin 5
 const int xpin = A0;
 const int ypin = A1;
 const int zpin = A2;
 // Raw Ranges:
 // initialize to mid-range and allow calibration to
 // find the minimum and maximum for each axis
-int xRawMin = 280;
-int xRawMax = 470;
-int yRawMin = 260;
-int yRawMax = 500;
-int zRawMin = 290;
-int zRawMax = 540;
+int xRawMin = 265;
+int xRawMax = 420;
+int yRawMin = 250;
+int yRawMax = 415;
+int zRawMin = 260;
+int zRawMax = 440;
 int xRaw = 0;
 int yRaw = 0;
 int zRaw = 0;
@@ -61,6 +56,9 @@ long time = 0;         // the last time the output pin was toggled
 long debounce = 200;   // the debounce time, increase if the output flickers
 
 //the RGB LED
+const int greenLEDPin = 9;    // LED connected to digital pin 9
+const int redLEDPin = 10;     // LED connected to digital pin 10
+const int blueLEDPin = 11;    // LED connected to digital pin 11
 int redValue = 0; // value to write to the red LED
 int greenValue = 0; // value to write to the green LED
 int blueValue = 0; // value to write to the blue LED
@@ -74,10 +72,10 @@ void setup() {
   Serial.begin(9600);
 
   //accelerometer
-//  pinMode(groundpin, OUTPUT);
-//  pinMode(powerpin, OUTPUT);
-//  digitalWrite(groundpin, LOW);
-//  digitalWrite(powerpin, HIGH);
+  pinMode(groundpin, OUTPUT);
+  pinMode(powerpin, OUTPUT);
+  digitalWrite(groundpin, LOW);
+  digitalWrite(powerpin, HIGH);
 
   //led
   pinMode(switchInPin, INPUT);
@@ -94,12 +92,6 @@ void setup() {
 }
 
 void loop() {
-  //read the potentiometer
-  potenVal = analogRead(potenPin);
-  Serial.print("potenVal= ");
-  Serial.println(potenVal);
-  value = map(potenVal,0,1023,0,255);
-  
   xRaw = ReadAxis(xpin);
   yRaw = ReadAxis(ypin);
   zRaw = ReadAxis(zpin);
@@ -139,13 +131,13 @@ void loop() {
   //store the RGB value from hsv into rgbColor[3]
   getRGB(hue, saturation, value, rgbColor);
   
-//  Serial.print("rgb: ");
-//  Serial.print(rgbColor[0]);
-//  Serial.print(", ");
-//  Serial.print(rgbColor[1]);
-//  Serial.print(", ");
-//  Serial.print(rgbColor[2]);
-//  Serial.println(" ");
+  Serial.print("rgb: ");
+  Serial.print(rgbColor[0]);
+  Serial.print(", ");
+  Serial.print(rgbColor[1]);
+  Serial.print(", ");
+  Serial.print(rgbColor[2]);
+  Serial.println(" ");
 
   //---------------------LED------------------
   readingSwitch = digitalRead(switchInPin);
