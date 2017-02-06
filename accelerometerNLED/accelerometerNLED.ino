@@ -14,12 +14,12 @@ const int zpin = A2;
 // Raw Ranges:
 // initialize to mid-range and allow calibration to
 // find the minimum and maximum for each axis
-int xRawMin = 260;
+int xRawMin = 265;
 int xRawMax = 420;
-int yRawMin = 260;
-int yRawMax = 398;
+int yRawMin = 250;
+int yRawMax = 415;
 int zRawMin = 260;
-int zRawMax = 425;
+int zRawMax = 440;
 int xRaw = 0;
 int yRaw = 0;
 int zRaw = 0;
@@ -90,7 +90,7 @@ void loop() {
   //showRawData();
 
   //check the max and min of xyzAxises
-  AutoCalibrate(xRaw, yRaw, zRaw);
+  //AutoCalibrate(xRaw, yRaw, zRaw);
 
   // Convert raw values to 'milli-Gs"
   long xScaled = map(xRaw, xRawMin, xRawMax, -1000, 1000);
@@ -119,13 +119,6 @@ void loop() {
 
   //get RGB value from the hue value and saturation value.
   getRGB(hue, saturation, value, rgbColor);
-  //    Serial.print("rgb: ");
-  //    Serial.print(rgbColor[0]);
-  //    Serial.print(", ");
-  //    Serial.print(rgbColor[1]);
-  //    Serial.print(", ");
-  //    Serial.print(rgbColor[2]);
-  //    Serial.println(" ");
   Serial.print("rgb: ");
   Serial.print(rgbColor[0]);
   Serial.print(", ");
