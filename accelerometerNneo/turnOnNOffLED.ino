@@ -28,8 +28,8 @@ void turnOffLED(int endColor[3]) {
     if (endColor[0] == 0 && endColor[1] == 0 && endColor[2] == 0) {
       finish = true;
     }
-    // wait for 10 milliseconds to see the dimming effect
-    delay(10);
+    // wait for 5 milliseconds to see the dimming effect
+    delay(5);
   }
 }
 
@@ -54,8 +54,8 @@ void turnOnLED(int beginColor[3]) {
       if (currentColor[0] == beginColor[0] && currentColor[1] == beginColor[1] && currentColor[2] == beginColor[2]) {
         finish = true;
       }
-      // wait for 10 milliseconds to see the dimming effect
-      delay(10);
+      // wait for 5 milliseconds to see the dimming effect
+      delay(5);
     }
   }
 }
